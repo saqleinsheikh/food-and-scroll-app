@@ -2,7 +2,7 @@ const userModel = require('../models/user.model')
 const foodPartnerModel = require("../models/foodpartner.model")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
-const foodpartnerModel = require('../models/foodpartner.model');
+// const foodpartnerModel = require('../models/foodpartner.model');
 
 
 
@@ -25,7 +25,8 @@ async function registerUser(req, res) {
     const user = await userModel.create({
         fullName,
         email,
-        password: hashedPassword
+        password: hashedPassword ,
+       
     })
     const token = jwt.sign({
         id: user._id,
@@ -88,7 +89,7 @@ async function logoutUser(req, res) {
 }
 
 async function registerFoodPartner(req, res) {
-    const { name, email, password } = req.body;
+    const { name, email, password , phone , address , contactName} = req.body;
 
     const isAccountAlreadyExists = await foodPartnerModel.findOne({
         email
@@ -104,7 +105,10 @@ async function registerFoodPartner(req, res) {
     const foodPartner = await foodPartnerModel.create({
         name,
         email,
-        password: hashedPassword
+        password: hashedPassword,
+         phone,
+        address,
+        contactName,
     })
     const token = jwt.sign({
         id: foodPartner._id,
@@ -125,7 +129,7 @@ async function registerFoodPartner(req, res) {
 async function loginFoodpartner(req, res) {
     const { email, password } = req.body;
 
-    const foodPartner = await foodpartnerModel.findOne({
+    const foodPartner = await foodPartnerModel.findOne({
         email
     })
 
@@ -152,7 +156,10 @@ async function loginFoodpartner(req, res) {
         foodPartner: {
             _id: foodPartner._id,
             email: foodPartner.email,
-            name: foodPartner.email
+            name: foodPartner.name,
+            contactName: foodPartner.contactName,
+            phone:foodPartner.phone,
+            address:foodPartner.address,
         }
     })
 
