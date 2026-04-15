@@ -19,10 +19,20 @@ e.preventDefault();
 
 try{
 const res = await axios.post("http://localhost:3000/api/auth/food-partner/register",{
-  
+  name: restaurantName,
+ contactName: ownerName,
+  email:email,
+  password:password,
+ phone: contact,
+ address: address,
+},{
+  withCredentials:true,
 })
-}catch(err){
+console.log(res.data);
+navigate("/")
 
+}catch(err){
+alert("invalid email and password",err)
 }
 }
   return (
