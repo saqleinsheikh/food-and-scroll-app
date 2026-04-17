@@ -17,7 +17,7 @@ password:password,
 withCredentials:true
   })
   console.log(res.data);
-navigate("/")
+navigate("/createfood")
 }catch(err){
 alert(err,"invaild email and password")
 }

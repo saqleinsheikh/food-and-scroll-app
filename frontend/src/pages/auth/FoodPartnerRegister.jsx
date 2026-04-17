@@ -29,7 +29,7 @@ const res = await axios.post("http://localhost:3000/api/auth/food-partner/regist
   withCredentials:true,
 })
 console.log(res.data);
-navigate("/")
+navigate("/createfood")
 
 }catch(err){
 alert("invalid email and password",err)
