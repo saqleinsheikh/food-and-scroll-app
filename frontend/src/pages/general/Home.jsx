@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom';
 
 
 // =============================
@@ -25,8 +26,8 @@ const videos = [
 
 const Home=()=> {
 const [videos,setVideos] = useState([])
-const videoRefs = useRef(new Map())
-const containerRef = useRef(null)
+// const videoRefs = useRef(new Map())
+// const containerRef = useRef(null)
 
   useEffect(() => { 
  axios.get("http://localhost:3000/api/food",{withCredentials:true})
@@ -37,7 +38,7 @@ const containerRef = useRef(null)
 })
   
   return (
-    <div ref={containerRef} className="h-screen overflow-y-scroll snap-y snap-mandatory bg-black">
+    <div  className="h-screen overflow-y-scroll snap-y snap-mandatory bg-black">
       {videos.map((item) => (
         <div key={item._id} className="h-screen w-full snap-start relative">
           {/* VIDEO */}
@@ -66,9 +67,13 @@ const containerRef = useRef(null)
             </p>
 
             {/* BUTTON */}
-            <button className="px-4 py-2 bg-white text-black rounded-lg text-sm font-medium">
+            <Link
+            to={"/food-partner/" + item.foodPartner}
+            //  to={"/food-partner/:id"}
+            // to={`/profile/${item.foodPartner}`} 
+             className="px-4 py-2 bg-white text-black rounded-lg text-sm font-medium">
               Visit Store
-            </button>
+            </Link>
           </div>
         </div>
       ))}
