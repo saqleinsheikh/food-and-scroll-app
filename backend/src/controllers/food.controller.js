@@ -56,7 +56,7 @@ if(isAlreadyLiked){
 }
 
 
-const like = likeModel.create({
+const like = await likeModel.create({
     user: user._id,
     food:foodId
 })
@@ -85,6 +85,9 @@ async function saveFood(req,res){
             user: user._id,
             food:foodId,
         })
+        await foodModel.findByIdAndUpdate(foodId,{
+            $inc:{savesCount:-1}
+        })
         return res.status(200).json({
             message:"food unsaved successfully"
         })
@@ -93,6 +96,11 @@ async function saveFood(req,res){
         user:user._id,
         food:foodId
     })
+    
+ await foodModel.findByIdAndUpdate(foodId,{
+            $inc:{savesCount:1}
+        })
+
     res.status(201).json({
         message:"food saved successfully",
         save
@@ -100,9 +108,29 @@ async function saveFood(req,res){
 
 }
 
+async function getSaveFood(req, res) {
+const user = req.user;
+
+const savedFoods = await saveModel.find({user : user._id}).populate('food');
+
+if(!savedFoods || savedFoods.length === 0){
+    return res.status(404).json({message:"no save foods found"})
+}
+
+
+  res.status(200).json({
+        message:"saved food retrieved successfully",
+        savedFoods
+    })
+}
+
+
+
+
 module.exports ={
     createFood,
     getFoodItems,
     likeFood,
-    saveFood
+    saveFood,
+    getSaveFood
 }
